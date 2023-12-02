@@ -12,7 +12,7 @@ pipeline {
                 catchError() {
                   checkout([$class: 'GitSCM', branches: [[name: '$branch']], extensions: [[$class: 'WipeWorkspace'], [$class: 'GitTagMessageExtension']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github-key', url: 'git@https://github.com/martonowibowo/sample-nodejs.git']]])
                   sh '''
-                  ~/.local/bin/aws s3 cp ./ s3://proto-kumparan/dev/ --recursive --exclude ".*"
+                    git describe
                   '''
                 }
               }  
