@@ -11,4 +11,11 @@ services:
       - 50000:50000
     volumes:
       - ./data:/var/jenkins_home
+  agent:
+    image: jenkins/ssh-agent:jdk11
+    privileged: true
+    user: root
+    container_name: agent
+    environment:
+      - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDI6SKnPAIbn/uZDfisjzCKLwsP26Ee2MbKwOySfaZGTgvpp/7nLg2vIaKo5QCXLbn4GDDcTidw68rQFxuqUFbakhpNmeA+Dd2VDCmAmrnbaNbCaGifh2/ednJwFbVV7bfXHCxlUJfBGPMrIyy8EIKZd1K4e6sEAHM1612lqmncN2xgVUyIpkZ16QggjoRfuqcdeFw+ogWkE3mZk1KRgk+TcRj6flq0K3qhYarZzW05qqO4HFaaCipqUJf2qNO9bsDIV8E6Qidkghx4UWpMWo9lTaou/QwnKK2Zigyg5hgTSbEHagusH/+az+mDb7pys2dz2jwgJMzHY2QeRPY67zrGHCOOs0AfmOWhXh+AadTKdxphl5azSWKwM4PXhZzYy+4a+vsPKBj40a7G4iCK2ZUmrXTCQ2zuTipsDQG84kYZPpIlzZ5t8fc5nXM0qjE3pIo+BbgXKQ2SEUCD+EIo1Yf1Jz0mUFN3Hr7vGl/qqVraVbgjsf2to2xvHXY+ySK9TS8= root@bb8ea95850f8
     
