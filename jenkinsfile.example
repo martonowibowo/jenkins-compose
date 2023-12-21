@@ -1,25 +1,21 @@
 pipeline {
-  agent {
-    node {
-      label params.agent
-    }
-  }
+  agent any
   stages {
         stage('checkout code') {
           steps {
             script {
-              if (params.branch != null) {
                 catchError() {
-                  checkout([$class: 'GitSCM', branches: [[name: '$branch']], extensions: [[$class: 'WipeWorkspace'], [$class: 'GitTagMessageExtension']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github-key', url: 'git@https://github.com/martonowibowo/sample-nodejs.git']]])
+                  checkout([$class: 'GitSCM', branches: [[name: '$gitlabBranch']], 
+                  extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], 
+                  userRemoteConfigs: [[
+                      credentialsId: 'gitlabSSH', 
+                      url: 'git@gitlab.com:martonowibowo/sample-js.git'
+                      ]]
+                    ])
                   sh '''
                     git describe
                   '''
                 }
-              }  
-              else {
-                currentBuild.result = 'FAILED'
-                error 'Branch not Found'
-              }
             }
             notifySlack(currentBuild.result,"checkout code")
             script{
@@ -87,5 +83,5 @@ def notifySlack(String buildStatus = 'STARTED', String StageName) {
   }
 
   // Send notifications
-  slackSend (color: colorCode, message: summary, baseUrl: 'https://kumparan.slack.com/services/hooks/jenkins-ci/', channel: '#sre-dailystandup', failOnError: true, token: 'bZKucazbfshSLeCnBsidWNuu')
+  //slackSend (color: colorCode, message: summary, baseUrl: 'https://slack.com/services/hooks/jenkins-ci/', channel: '#deployment', failOnError: true, token: 'xxxxxxxx')
 }
